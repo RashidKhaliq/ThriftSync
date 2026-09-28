@@ -1,5 +1,12 @@
 # ThriftSync
-## Multi-Store Thrift Inventory Sync, Reservation & Dropship Order Platform
+## Multi-Store Thrift Inventory Sync, Reservation & Dropship Order Platform Shopify
+
+Shopify Stores A, B, C, D ....
+connected via Shopify API Token  shpca_XXXXXX and Store link notification webhook secret to get notification of place order from other stores. when order is placed on any store it shoudl be reflected on all other stores in real time and the product should be reserved for the customer who placed the order on that store. and the product should be marked as sold on all other stores. if the order is cancelled on the original store it shoudl be reflected on all other stores and the product should be made available for sale on all other stores. also seller order place on actual store owner store if the order is placed on any store it shoudl be reflected on all other stores in real time and the product should be reserved for the customer who placed the order on that store. and the product should be marked as sold on all other stores. if the order is cancelled on the original store it shoudl be reflected on all other stores and the product should be made available for sale on all other stores. also seller 
+
+for placeing dropshipping order 
+each store share Name, Email, Address, phone, and Other information for placing order on other stores. the order will be placed on the original store and the original store will be responsible for the order. 
+the product will be shipped from the original store to the seller store and the seller store will be responsible for the final delivery to the customer. 
 
 ## 1. Project Overview
 

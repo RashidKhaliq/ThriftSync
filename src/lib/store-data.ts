@@ -456,6 +456,44 @@ class ThriftSyncDataStore {
     }
   ];
 
+  constructor() {
+    this.loadFromStorage();
+  }
+
+  private loadFromStorage() {
+    if (typeof window !== 'undefined') {
+      try {
+        const savedStores = localStorage.getItem('thriftsync_stores');
+        if (savedStores) {
+          const parsed = JSON.parse(savedStores);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            this.stores = parsed;
+          }
+        }
+        const savedItems = localStorage.getItem('thriftsync_physical_items');
+        if (savedItems) {
+          const parsedItems = JSON.parse(savedItems);
+          if (Array.isArray(parsedItems) && parsedItems.length > 0) {
+            this.physicalItems = parsedItems;
+          }
+        }
+      } catch (e) {
+        console.error('Error loading data from localStorage', e);
+      }
+    }
+  }
+
+  private saveToStorage() {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('thriftsync_stores', JSON.stringify(this.stores));
+        localStorage.setItem('thriftsync_physical_items', JSON.stringify(this.physicalItems));
+      } catch (e) {
+        console.error('Error saving data to localStorage', e);
+      }
+    }
+  }
+
   // Store methods
   public getStores(): Store[] {
     return [...this.stores];
@@ -485,6 +523,7 @@ class ThriftSyncDataStore {
       details: `New store ${newStore.name} (${newStore.supplierCode}) connected successfully.`
     });
 
+    this.saveToStorage();
     return newStore;
   }
 
@@ -493,6 +532,7 @@ class ThriftSyncDataStore {
     if (store) {
       store.status = status;
       store.lastSyncAt = new Date().toISOString();
+      this.saveToStorage();
     }
     return store;
   }
@@ -509,6 +549,7 @@ class ThriftSyncDataStore {
         result: 'SUCCESS',
         details: `Store ${removed.name} was disconnected.`
       });
+      this.saveToStorage();
       return true;
     }
     return false;
@@ -943,6 +984,14 @@ class ThriftSyncDataStore {
 
   // Demo Reset function
   public resetToDefaultDemoState(): void {
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.removeItem('thriftsync_stores');
+        localStorage.removeItem('thriftsync_physical_items');
+      } catch (e) {
+        console.error('Error clearing localStorage', e);
+      }
+    }
     // Re-initialize arrays with default state
     const fresh = new ThriftSyncDataStore();
     this.stores = fresh.stores;

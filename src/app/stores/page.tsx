@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Store as StoreIcon, Plus, Trash2, Edit2, CheckCircle2, AlertCircle, RefreshCw, Key, Link as LinkIcon, ShieldCheck } from 'lucide-react';
 import { storeData } from '@/lib/store-data';
 import { Store } from '@/types';
@@ -11,6 +11,10 @@ export default function StoresPage() {
   const [newStoreName, setNewStoreName] = useState('');
   const [newDomain, setNewDomain] = useState('');
   const [newSupplierCode, setNewSupplierCode] = useState('');
+
+  useEffect(() => {
+    setStores(storeData.getStores());
+  }, []);
 
   const handleAddStore = (e: React.FormEvent) => {
     e.preventDefault();

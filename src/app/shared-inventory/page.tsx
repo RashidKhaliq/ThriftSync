@@ -1,13 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Boxes, Plus, Filter, Search, Share2, Unlink, Lock, ShieldCheck, Eye, CheckCircle2, AlertOctagon } from 'lucide-react';
 import { storeData } from '@/lib/store-data';
 import { PhysicalItem, StoreListing, Store } from '@/types';
 
 export default function SharedInventoryPage() {
   const [physicalItems, setPhysicalItems] = useState<PhysicalItem[]>(storeData.getPhysicalItems());
-  const [stores] = useState<Store[]>(storeData.getStores());
+  const [stores, setStores] = useState<Store[]>(storeData.getStores());
+
+  useEffect(() => {
+    setPhysicalItems(storeData.getPhysicalItems());
+    setStores(storeData.getStores());
+  }, []);
   const [selectedStatus, setSelectedStatus] = useState<string>('ALL');
   const [searchQuery, setSearchQuery] = useState('');
   const [inspectItem, setInspectItem] = useState<PhysicalItem | null>(null);
